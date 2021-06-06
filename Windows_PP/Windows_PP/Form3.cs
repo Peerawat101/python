@@ -13,7 +13,7 @@ namespace Windows_PP
 {
     public partial class Form3 : Form
     {
-        private MySqlConnection databaseConnection()
+        private MySqlConnection databaseConnection()//เชื่อมต่อdata base
         {
             string connectionString = "datasource=127.0.0.1;port=3306;username=root;password=;database=stock_project;";
             MySqlConnection conn = new MySqlConnection(connectionString);
@@ -24,13 +24,21 @@ namespace Windows_PP
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)//check ว่ามีผู้สมัครนี้อยู่ใน data base หรือไม่
         {
-            if (txtUsername.Text == "" || txtPassword.Text == "" || txtPasstwo.Text == "")
+            if (checkUser()==true)
             {
-                MessageBox.Show("Some Fields are empty", "Registration Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("มีผู้สมัครนี้อยู่แล้ว", "สมัครสมาชิกล้มเหลว", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtUsername.Text = "";
+                txtPassword.Text = "";
+                txtPasstwo.Text = "";
+                txtUsername.Focus();
             }
-            else if (txtPassword.Text == txtPasstwo.Text)
+            else if (txtUsername.Text == "" || txtPassword.Text == "" || txtPasstwo.Text == "")//ถ้ามีช่องว่างก็จะแจ้งเตืนว่าสมัครสมาชิกล้มเหลว
+            {
+                MessageBox.Show("มีช่องว่าง", "สมัครสมาชิกล้มเหลว", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (txtPassword.Text == txtPasstwo.Text)//พาสกับคอนเฟริ์มพาสเหมือนกันก็ใชh try catch
             {
                     try
                     {
@@ -42,12 +50,12 @@ namespace Windows_PP
                         conn.Open();
                         int rows = cmd.ExecuteNonQuery();
                         conn.Close();
-                        if (rows > 0)
+                        if (rows > 0)//ถ้า insert สำเร็จก็ให้ทุกช่องว่างเปล่า
                         {
                             txtUsername.Text = "";
                             txtPassword.Text = "";
                             txtPasstwo.Text = "";
-                            MessageBox.Show("Register Complete", "SUCCESS", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("สมัครสมาชิก สำเร็จ", "สำเร็จ", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             Form1 a = new Form1();
                             this.Hide();
                             a.Show();
@@ -55,16 +63,38 @@ namespace Windows_PP
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("This UserName Already Taken", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(ex.Message);
                     }
                 
             }
-            else
+            else//ถ้าpasswordกับคอนเฟริมไม่ตรงกันก็แสดงอันนี้
             {
-                MessageBox.Show("Password does not match, Please Re-enter", "Registration Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("รหัสผ่านไม่ตรงกัน, ลองใหม่อีกครั้ง", "สมัครสมาชิกล้มเหลว", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtPassword.Text = "";
                 txtPasstwo.Text = "";
                 txtPassword.Focus();
+            }
+        }
+        public Boolean checkUser()//chech user ว่ามีไหนdata base หรือยัง
+        {
+            string connectionString = "datasource=127.0.0.1;port=3306;username=root;password=;database=stock_project";
+            MySqlConnection conn = new MySqlConnection(connectionString);
+            string username = txtUsername.Text;
+            DataTable table = new DataTable();
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            MySqlCommand command = new MySqlCommand("SELECT * FROM uname WHERE user = @user", conn);
+
+            command.Parameters.Add("@user", MySqlDbType.VarChar).Value = username;
+            adapter.SelectCommand = command;
+            adapter.Fill(table);
+
+            if (table.Rows.Count > 0)//ถ้ามีชื่อuserอยู่แล้วจะเข้าifแรก
+            {
+                return true;
+            }
+            else//ถ้าfalse หรือ ไม่มีชื่อ user จะเข้า if สอง
+            {
+                return false;
             }
         }
 
@@ -75,10 +105,6 @@ namespace Windows_PP
             }
         }
 
-        private void txtPasstwo_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void button3_Click(object sender, EventArgs e)
         {

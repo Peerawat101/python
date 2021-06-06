@@ -42,6 +42,7 @@ namespace Windows_PP
             if (row.Read())
             {
                 MessageBox.Show("เข้าสู่ระบบสำเร็จ");
+                Program.userid = textBox1.Text;
                 Form2 a = new Form2();
                 this.Hide();
                 a.Show();
@@ -61,7 +62,7 @@ namespace Windows_PP
             }
         }
 
-        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        private void textBox2_KeyDown(object sender, KeyEventArgs e)//กด enter แล้ว ไป เลื่อนลงไป button1
         {
             if (e.KeyCode == Keys.Enter)
             {
