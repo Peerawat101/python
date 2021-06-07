@@ -112,5 +112,29 @@ namespace Windows_PP
             this.Hide();
             a.Show();
         }
+
+        private void txtPassword_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (System.Text.Encoding.UTF8.GetByteCount(new char[] { e.KeyChar }) > 1)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtPasstwo_KeyPress(object sender, KeyPressEventArgs e)//ใส่ภาษาไทยไม่ได้
+        {
+            if (System.Text.Encoding.UTF8.GetByteCount(new char[] { e.KeyChar }) > 1)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtUsername_KeyPress(object sender, KeyPressEventArgs e)//ใส่ภาษาไทยไม่ได้
+        {
+            if (System.Text.Encoding.UTF8.GetByteCount(new char[] { e.KeyChar }) > 1)
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

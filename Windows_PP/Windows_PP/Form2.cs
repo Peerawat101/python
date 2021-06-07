@@ -13,6 +13,7 @@ namespace Windows_PP
 {
     public partial class Form2 : Form
     {
+        List<Bill> allbill = new List<Bill>();
         string userid = Program.userid;
         bool menutype = true;
         string name, price,part,aa,allamount;
@@ -63,18 +64,44 @@ namespace Windows_PP
         }
         private void CalcuBut_Click(object sender, EventArgs e)//4
         {
+            allbill.Clear();
             int price = int.Parse(PriceBox.Text);//ราคารวม
             int pay = int.Parse(PayBox.Text);//ราคาจ่าย
             int result;
             result = pay - price;//เงินทอน
             ResultBox.Text = result.ToString();
             MessageBox.Show("ขอบคุณที่ใช้บริการครับ");
+
+
             MySqlConnection conn = databaseConnection();
+            MySqlCommand cmd1 = new MySqlCommand($"SELECT * FROM history WHERE userid=\"{Program.userid}\"AND status=\"unpay\"", conn);
             conn.Open();
-            MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandText = $"UPDATE history SET status=\"pay\"WHERE status=\"unpay\"AND userid=\"{userid}\"";
-            cmd.ExecuteNonQuery();
-            if(menutype==true)
+            MySqlDataReader adapter = cmd1.ExecuteReader();
+            while (adapter.Read())
+            {
+                Program.name = adapter.GetString("name").ToString();
+                Program.amount = adapter.GetString("amount").ToString();
+                Program.price = adapter.GetString("price").ToString();
+                Bill item = new Bill()
+                {
+                    name = Program.name,
+                    amount = Program.amount,
+                    price = Program.price
+                };
+                allbill.Add(item);
+
+
+            }
+            printPreviewDialog1.Document = printDocument1;//show กระดาษโดยเอา ข้อมูลใน print dOCUMET 1 ไปใส่
+            printPreviewDialog1.ShowDialog();
+
+
+            MySqlConnection conn2 = databaseConnection();
+            conn2.Open();
+            MySqlCommand cmd2 = conn2.CreateCommand();
+            cmd2.CommandText = $"UPDATE history SET status=\"pay\"WHERE status=\"unpay\"AND userid=\"{userid}\"";
+            cmd2.ExecuteNonQuery();
+            if (menutype==true)
             {
                 showdata("shoes");
             }
@@ -84,6 +111,8 @@ namespace Windows_PP
             }
             showhis();
             reset();
+
+
         }
         private void reset()
         {
@@ -155,6 +184,7 @@ namespace Windows_PP
             else
             {
                 PriceBox.Text = Convert.ToString(total);//ถ้าไม่ว่างเอาจรงตามเงื่อนไขทั้งหมดมาบวกกันแล้วเก็ยไว้ในpricebox
+                Program.total = PriceBox.Text;
             }
             
         }
@@ -192,6 +222,32 @@ namespace Windows_PP
             fm.Show();
         }
 
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            e.Graphics.DrawString("ใบเสร็จ", new Font("supermarket", 20, FontStyle.Bold), Brushes.Black, new Point(400, 50));
+            e.Graphics.DrawString("Runner Mercy", new Font("supermarket", 24, FontStyle.Bold), Brushes.Black, new Point(355, 90));
+            e.Graphics.DrawString("พิมพ์เมื่อ " + System.DateTime.Now.ToString("dd/MM/yyyy HH : mm : ss น."), new Font("supermarket", 14, FontStyle.Regular), Brushes.Black, new PointF(525, 150));
+            e.Graphics.DrawString("ข้อมูลร้าน : Runner Mercy", new Font("supermarket", 16, FontStyle.Regular), Brushes.Black, new Point(80, 150));
+            e.Graphics.DrawString("              บ้านเลขที่ 551/31 ", new Font("supermarket", 16, FontStyle.Regular), Brushes.Black, new Point(80, 195));
+            e.Graphics.DrawString("              ตำบลในเมือง อำเภอเมืองร้อยเอ็ด จังหวัดร้อยเอ็ด 45000", new Font("supermarket", 16, FontStyle.Regular), Brushes.Black, new Point(80, 240));
+            e.Graphics.DrawString("------------------------------------------------------------------------------------------------", new Font("supermarket", 16, FontStyle.Regular), Brushes.Black, new Point(80, 285));
+            e.Graphics.DrawString("    จำนวน          ชื่อสินค้า                                                                            ราคา", new Font("supermarket", 16, FontStyle.Regular), Brushes.Black, new Point(80, 315));
+            e.Graphics.DrawString("------------------------------------------------------------------------------------------------", new Font("supermarket", 16, FontStyle.Regular), Brushes.Black, new Point(80, 345));
+            int y = 345;
+            foreach (var i in allbill)
+            {
+                y = y + 35;
+                e.Graphics.DrawString("   " + i.amount, new Font("supermarket", 14, FontStyle.Regular), Brushes.Black, new PointF(100, y));
+                e.Graphics.DrawString("   " + i.name, new Font("supermarket", 14, FontStyle.Regular), Brushes.Black, new PointF(190, y));
+                e.Graphics.DrawString("   " + i.price, new Font("supermarket", 14, FontStyle.Regular), Brushes.Black, new PointF(730, y));
+            }
+            e.Graphics.DrawString("-----------------------------------------------------------------------------------------------", new Font("supermarket", 16, FontStyle.Regular), Brushes.Black, new Point(80, y + 30));
+            e.Graphics.DrawString("รวมทั้งสิ้น         " + Program.total + " บาท", new Font("supermarket", 16, FontStyle.Regular), Brushes.Black, new Point(570, (y + 30) + 45));
+            e.Graphics.DrawString("ชื่อผู้ให้บริการ        ร้าน Runner Mercy" ,new Font("supermarket", 16, FontStyle.Bold), Brushes.Black, new Point(80, (y + 30) + 45));
+            e.Graphics.DrawString("รับเงิน            " + PayBox.Text + " บาท", new Font("supermarket", 16, FontStyle.Regular), Brushes.Black, new Point(570, ((y + 30) + 45) + 45));
+            e.Graphics.DrawString("เงินทอน           " + ResultBox.Text + " บาท", new Font("supermarket", 16, FontStyle.Regular), Brushes.Black, new Point(570, (((y + 30) + 45) + 45) + 45));
+        }
+
         private void pictureBox3_Click(object sender, EventArgs e)//ออกจากระบบ
         {
             Form1 a = new Form1();
@@ -208,11 +264,13 @@ namespace Windows_PP
 
         private void Form2_Load(object sender, EventArgs e)//รายการซื้อปัจจุบัน
         {
+            label4.Text = ("USERNAME : " + Program.userid);
             showhis();
             setallprice();
+            
         }
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)//2 show picture onlyyy
+        
         {
             comboBox1.Items.Clear();
             comboBox2.Items.Clear();

@@ -61,6 +61,7 @@ namespace Windows_PP
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(212, 35);
             this.txtUsername.TabIndex = 0;
+            this.txtUsername.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtUsername_KeyPress);
             // 
             // txtPassword
             // 
@@ -70,6 +71,7 @@ namespace Windows_PP
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(212, 35);
             this.txtPassword.TabIndex = 1;
+            this.txtPassword.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPassword_KeyPress);
             // 
             // txtPasstwo
             // 
@@ -80,6 +82,7 @@ namespace Windows_PP
             this.txtPasstwo.PasswordChar = '*';
             this.txtPasstwo.Size = new System.Drawing.Size(212, 35);
             this.txtPasstwo.TabIndex = 2;
+            this.txtPasstwo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPasstwo_KeyPress);
             // 
             // button1
             // 

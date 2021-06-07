@@ -41,7 +41,6 @@ namespace Windows_PP
             this.PayBox = new System.Windows.Forms.RichTextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.ResultBox = new System.Windows.Forms.RichTextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.MenuBar = new System.Windows.Forms.MenuStrip();
             this.MenuItems = new System.Windows.Forms.ToolStripMenuItem();
             this.รองเทาToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -57,8 +56,10 @@ namespace Windows_PP
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.MenuBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -72,7 +73,7 @@ namespace Windows_PP
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(53, 64);
+            this.label1.Location = new System.Drawing.Point(54, 91);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(174, 29);
             this.label1.TabIndex = 2;
@@ -81,7 +82,7 @@ namespace Windows_PP
             // PictureBox
             // 
             this.PictureBox.BackColor = System.Drawing.Color.White;
-            this.PictureBox.Location = new System.Drawing.Point(427, 107);
+            this.PictureBox.Location = new System.Drawing.Point(427, 123);
             this.PictureBox.Name = "PictureBox";
             this.PictureBox.Size = new System.Drawing.Size(329, 370);
             this.PictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -108,7 +109,7 @@ namespace Windows_PP
             this.CalcuBut.Cursor = System.Windows.Forms.Cursors.Hand;
             this.CalcuBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CalcuBut.ForeColor = System.Drawing.Color.Red;
-            this.CalcuBut.Location = new System.Drawing.Point(988, 502);
+            this.CalcuBut.Location = new System.Drawing.Point(965, 507);
             this.CalcuBut.Name = "CalcuBut";
             this.CalcuBut.Size = new System.Drawing.Size(127, 45);
             this.CalcuBut.TabIndex = 10;
@@ -122,7 +123,7 @@ namespace Windows_PP
             this.ClearBut.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ClearBut.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ClearBut.ForeColor = System.Drawing.Color.Red;
-            this.ClearBut.Location = new System.Drawing.Point(1170, 502);
+            this.ClearBut.Location = new System.Drawing.Point(1193, 507);
             this.ClearBut.Name = "ClearBut";
             this.ClearBut.Size = new System.Drawing.Size(127, 45);
             this.ClearBut.TabIndex = 11;
@@ -195,16 +196,6 @@ namespace Windows_PP
             this.ResultBox.TabIndex = 18;
             this.ResultBox.Text = "";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(778, 64);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(121, 73);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 20;
-            this.pictureBox1.TabStop = false;
-            // 
             // MenuBar
             // 
             this.MenuBar.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -253,7 +244,7 @@ namespace Windows_PP
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(49, 107);
+            this.dataGridView1.Location = new System.Drawing.Point(49, 123);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
@@ -267,7 +258,7 @@ namespace Windows_PP
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(434, 64);
+            this.label2.Location = new System.Drawing.Point(434, 91);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(112, 29);
             this.label2.TabIndex = 3;
@@ -300,7 +291,7 @@ namespace Windows_PP
             // dataGridView2
             // 
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Location = new System.Drawing.Point(923, 107);
+            this.dataGridView2.Location = new System.Drawing.Point(922, 123);
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
@@ -334,7 +325,7 @@ namespace Windows_PP
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.Red;
-            this.button1.Location = new System.Drawing.Point(1184, 56);
+            this.button1.Location = new System.Drawing.Point(1183, 72);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(137, 45);
             this.button1.TabIndex = 30;
@@ -348,11 +339,36 @@ namespace Windows_PP
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(928, 64);
+            this.label3.Location = new System.Drawing.Point(917, 80);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(149, 29);
             this.label3.TabIndex = 31;
             this.label3.Text = "ออเดอร์สินค้า";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.Red;
+            this.label4.Location = new System.Drawing.Point(12, 45);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(0, 24);
+            this.label4.TabIndex = 32;
+            // 
+            // printDocument1
+            // 
+            this.printDocument1.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printDocument1_PrintPage);
+            // 
+            // printPreviewDialog1
+            // 
+            this.printPreviewDialog1.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.printPreviewDialog1.ClientSize = new System.Drawing.Size(400, 300);
+            this.printPreviewDialog1.Enabled = true;
+            this.printPreviewDialog1.Icon = ((System.Drawing.Icon)(resources.GetObject("printPreviewDialog1.Icon")));
+            this.printPreviewDialog1.Name = "printPreviewDialog1";
+            this.printPreviewDialog1.Visible = false;
             // 
             // Form2
             // 
@@ -362,6 +378,7 @@ namespace Windows_PP
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1345, 655);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridView2);
@@ -372,7 +389,6 @@ namespace Windows_PP
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.MenuBar);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.ResultBox);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.PayBox);
@@ -391,7 +407,6 @@ namespace Windows_PP
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.MenuBar.ResumeLayout(false);
             this.MenuBar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -415,7 +430,6 @@ namespace Windows_PP
         private System.Windows.Forms.RichTextBox PayBox;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.RichTextBox ResultBox;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.MenuStrip MenuBar;
         private System.Windows.Forms.ToolStripMenuItem MenuItems;
         private System.Windows.Forms.ToolStripMenuItem รองเทาToolStripMenuItem;
@@ -431,5 +445,8 @@ namespace Windows_PP
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Drawing.Printing.PrintDocument printDocument1;
+        private System.Windows.Forms.PrintPreviewDialog printPreviewDialog1;
     }
 }
